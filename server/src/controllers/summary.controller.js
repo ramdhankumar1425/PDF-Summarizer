@@ -55,7 +55,9 @@ const getSummary = async (text) => {
             process.env.GEMINI_AI_API_KEY
         ).getGenerativeModel({ model: "gemini-1.5-flash" });
 
-        const prompt = "Generate a summary of the text:\n\n\n" + text;
+        const prompt =
+            "Summarize the following text into a concise and meaningful overview, capturing the key points and essential details in a clear and coherent manner:\n\n\n" +
+            text;
 
         const result = await model.generateContent(prompt);
 
