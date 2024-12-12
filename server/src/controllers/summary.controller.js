@@ -1,4 +1,3 @@
-const fs = require("fs");
 const pdf = require("pdf-parse");
 const { GoogleGenerativeAI } = require("@google/generative-ai");
 
@@ -19,9 +18,6 @@ const handleGetSummary = async (req, res) => {
 
         console.log("Text extracted...");
 
-        // delete the file from local storage
-        fs.unlinkSync(file.path);
-
         // get summary from the text
         const summary = await getSummary(text);
 
@@ -40,7 +36,7 @@ module.exports = { handleGetSummary };
 const extractTextFromPDF = async (file) => {
     try {
         // create a buffer from the file
-        const buffer = fs.readFileSync(file.path);
+        const buffer = file.buffer;
 
         const data = await pdf(buffer);
 

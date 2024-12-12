@@ -29,19 +29,12 @@ app.use(cors(corsOptions));
 app.use("/api/summary", limiter);
 
 // Confing multer for storing file
-const storage = new multer.diskStorage({
-    destination: (req, file, cb) => {
-        cb(null, "uploads/");
-    },
-    filename: (req, file, cb) => {
-        // Preserve the original file extension
-        const ext = path.extname(file.originalname);
-        const name = path.basename(file.originalname, ext);
-        cb(null, `${name}-${Date.now()}${ext}`);
-    },
-});
+const storage = multer.memoryStorage();
 
-const upload = multer({ storage: storage });
+const upload = multer({
+    storage,
+    limits: { fileSize: 10 * 1024 * 1024 }, // 10 MB file size limit
+});
 
 // routes
 app.post("/api/summary", upload.single("file"), handleGetSummary);
